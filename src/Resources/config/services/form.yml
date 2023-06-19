@@ -1,0 +1,6 @@
+services:
+  dige_sylius_tinypng_plugin.form.type.settings:
+    class: Dige\TinypngPlugin\Form\SettingsType
+    public: true
+    tags:
+      - { name: form.type }

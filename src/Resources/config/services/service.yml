@@ -1,0 +1,16 @@
+services:
+  dige_sylius_tinypng_plugin.service.log:
+    class: Dige\TinypngPlugin\Service\Settings\CreateLogService
+    public: true
+    arguments:
+      - '@doctrine.orm.entity_manager'
+
+  dige_sylius_tinypng_plugin.service.api:
+    class: Dige\TinypngPlugin\Service\Api\ApiService
+    public: true
+    arguments:
+      - '@dige_sylius_tinypng_plugin.repository.settings'
+
+  dige.tinypng_plugin.service.cache.cache_service:
+    class: Dige\TinypngPlugin\Service\Cache\CacheService
+    public: true

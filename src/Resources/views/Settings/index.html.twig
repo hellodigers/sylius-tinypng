@@ -1,0 +1,270 @@
+{% extends '@SyliusAdmin/layout.html.twig' %}
+{% import '@SyliusAdmin/Macro/breadcrumb.html.twig' as breadcrumb %}
+{% form_theme form '@SyliusUi/Form/theme.html.twig' %}
+{% set isCompressOn = settingsAvailable and itsStartedNew %}
+{% block content %}
+    <div class="ui stackable two column grid">
+        <div class="column">
+            <h1 class="ui header">
+                <i class="circular pencil icon"></i>
+                <div class="content">
+                    {{ "tinypng.ui.settings.label"|trans }}
+                    <div class="sub header">{{ "tinypng.ui.settings.sub_header"|trans }}</div>
+                </div>
+            </h1>
+
+            <div class="ui breadcrumb">
+                {% set breadcrumbs = [
+                    { label: 'sylius.ui.administration'|trans, url: path('sylius_admin_dashboard') },
+                    { label: 'tinypng.label'|trans },
+                    { label: 'sylius.ui.edit'|trans }
+                ]
+                %}
+
+                {{ breadcrumb.crumble(breadcrumbs) }}
+            </div>
+        </div>
+        <div class="middle aligned column">
+        </div>
+    </div>
+
+    <div class="ui stackable two column grid">
+        <div class="column">
+            <div class="ui segment">
+                {% if isApiExceeded %}
+                    <h4>
+                        <div class="ui icon negative message sylius-flash-message">
+                            <i class="close icon"></i>
+                            <i class="remove icon"></i>
+                            <div class="content">
+                                <div class="header">
+                                    {{ 'sylius.ui.warning'|trans }}
+                                </div>
+                                <p>
+                                    {{ 'tinypng.ui.settings.exceeded'|trans }}
+                                </p>
+                            </div>
+                        </div>
+                    </h4>
+                {% endif %}
+                <h4>{{ 'tinypng.ui.settings.first_step'|trans }}</h4>
+                {{ form_errors(form) }}
+                <form class="ui loadable form dirtylisten" method="post">
+                    {{ form_row(form.enabled) }}
+                    {{ form_help(form.enabled) }}
+                    {{ form_row(form.apiKey) }}
+                    {{ form_rest(form) }}
+                    <div class="ui buttons">
+                        <button class="ui labeled icon primary button" type="submit"><i class="plus icon"></i>{{- 'tinypng.ui.settings.button.save.label'|trans -}}</button>
+                    </div>
+                </form>
+            </div>
+            <div class="ui segment">
+                <h4>{{ 'tinypng.ui.settings.second_step'|trans }}</h4>
+                {% if unCompressedCount == 0 or loadImagesInProgress %}
+                    <div class="ui icon negative message sylius-flash-message">
+                        <i class="close icon"></i>
+                        <i class="remove icon"></i>
+                        <div class="content">
+                            <div class="header">
+                                {{ 'sylius.ui.warning'|trans }}
+                            </div>
+                            <p>
+                                {% if loadImagesInProgress %}
+                                    {{ 'tinypng.ui.settings.media_logs_registered_in_progress'|trans }}
+                                {% else %}
+                                    {{ 'tinypng.ui.settings.load_warning'|trans }}
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                {% endif %}
+                <form method="post" action="{{ path('dige_sylius_tinypng_plugin_media_log_load_all') }}" class="ui loadable form dirtylisten">
+                    <div class="ui segment">
+                        <h4 class="ui dividing header"> {{- "tinypng.ui.settings.media_log.uncompressed_count"|trans({'count': unCompressedCount}) -}}</h4>
+                        <h4 class="ui dividing header"> {{- "tinypng.ui.settings.media_log.compressed_count"|trans({'count': compressedCount}) -}}</h4>
+
+                        <button {% if loadImagesInProgress %} disabled {% endif %} class="ui labeled icon primary button" type="submit"><i class="save icon"></i> {{ "tinypng.ui.settings.button.load_images.label"|trans }}</button>
+                    </div>
+                </form>
+                <div class="row">
+                    <p>
+                    <div id="pLoadMediaBar" {% if not loadImagesInProgress %} style="display: none" {% endif %}>
+                        <h4>{{ 'tinypng.ui.settings.progress.load_images'|trans }}</h4>
+                        <div style="background-color: #f1f1f1!important;color: #fff!important;">
+                            <div id="loadMediaBar" style="background-color: #4CAF50!important;height:24px;width:0;text-align: center!important;"></div>
+                        </div>
+                    </div>
+                    </p>
+                    <p>
+                    <div id="successLoadMediaBar" style="display: none">
+                        <h4>{{ 'tinypng.ui.settings.progress.load_images_end'|trans }}</h4>
+                    </div>
+                    </p>
+                </div>
+            </div>
+            <div class="ui segment">
+                <h4>{{ 'tinypng.ui.settings.third_step'|trans }}</h4>
+                {% if not settingsAvailable or itsStartedNew or unCompressedCount == 0 %}
+                    <div class="ui icon negative message sylius-flash-message">
+                        <i class="close icon"></i>
+                        <i class="remove icon"></i>
+                        <div class="content">
+                            <div class="header">
+                                {{ 'sylius.ui.warning'|trans }}
+                            </div>
+                            <p>
+                                {{ 'tinypng.ui.settings.compress_all_warning'|trans }}
+                            </p>
+                        </div>
+                    </div>
+                {% endif %}
+                <form method="post" action="{{ path('dige_sylius_tinypng_plugin_settings') }}" class="ui loadable form dirtylisten">
+                    <div class="ui segment">
+                        <h4 class="ui dividing header"> {{- "tinypng.ui.settings.compress_all"|trans({'count': unCompressedCount}) -}}</h4>
+                        <button {% if isCompressOn or isApiExceeded or unCompressedCount == 0 %} disabled {% endif %} name="is_compress_all" value="1" class="ui labeled icon primary button" type="submit"><i class="save icon"></i>
+                            {% if unCompressedCount > 0 and compressedCount > 0 and compressedCount != unCompressedCount%}
+                                {{ "tinypng.ui.settings.button.start_all_continue.label"|trans }}
+                            {% else %}
+                                {{ "tinypng.ui.settings.button.start_all.label"|trans }}
+                            {% endif %}
+                        </button>
+                    </div>
+                </form>
+                <div class="row">
+                    <p>
+                    <div id="pCompressBar" style="display: {% if not settingsAvailable or itsStartedNew or unCompressedCount > 0 %}  block {% else %} none {% endif %}">
+                        <h4>{{ 'tinypng.ui.settings.progress.compress'|trans }}</h4>
+                        <div style="background-color: #f1f1f1!important;color: #fff!important;text-align: center!important;">
+                            <div id="compressBar" style="background-color: #4CAF50!important;height:24px;width:0"></div>
+                        </div>
+                        <p>
+                            <div>
+                                <span class="ui {{ isCompressOn ? 'green' : 'red' }} label">
+                                    Status: {{ isCompressOn ? 'tinypng.ui.settings.progress.compress_is_on'|trans : 'tinypng.ui.settings.progress.compress_is_halt'|trans }}
+                                </span>
+                            </div>
+                        </p>
+                    </div>
+                    </p>
+                    <p>
+                    <div id="successCompressBar" style="display:none;">
+                        <h4>{{ 'tinypng.ui.settings.progress.compress_end'|trans }}</h4>
+                    </div>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui segment">
+                <table class="ui sortable stackable very basic celled table">
+                    <thead>
+                    <tr>
+                        <th>{{ 'tinypng.ui.settings.logs.head'|trans }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for log in logs %}
+                        <tr>
+                            <td>
+                                <div class="ui styled fluid accordion">
+                                    <div class="title">
+                                        <i class="dropdown icon"></i>
+                                        {{ log.createdAt|date("Y-m-d H:i") }}
+                                    </div>
+                                    <div class="ui content ">
+                                        <ul>
+                                            <li>
+                                                <label>{{ 'tinypng.ui.settings.logs.finished_at'|trans }}</label>
+                                                {% if log.finishedAt %}
+                                                    {{ log.finishedAt|date("Y-m-d H:i")  }}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </li>
+                                            <li>
+                                                <label>{{ 'tinypng.ui.settings.logs.image_count'|trans }}</label>: {{ log.count }}<br>
+                                            </li>
+                                            <li>
+                                                <label>{{ 'tinypng.ui.settings.logs.error'|trans }}</label> {{ log.exceptionMessage }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        const settingsAvailable = parseInt({{ settingsAvailable }});
+        var loadImagesInProgress = parseInt({{ loadImagesInProgress }});
+        const actualCompressCount = parseInt({{ compressedCount }});
+        const actualUnCompressedCount = parseInt({{ unCompressedCount }});
+        const overalCount = actualCompressCount + actualUnCompressedCount;
+
+        var compressOn = !!"{{ isCompressOn  }}";
+
+        jQuery( document ).ready(function() {
+            let elemCompressBar = document.getElementById("compressBar");
+            const widthCompressBar = overalCount === 0 ? 0 : parseInt((actualCompressCount / overalCount) * 100);
+            elemCompressBar.style.width = widthCompressBar + '%';
+            elemCompressBar.innerHTML = widthCompressBar + '%';
+
+            if(settingsAvailable && (compressOn || loadImagesInProgress)) {
+                refreshProgressBars();
+            }
+        });
+
+        var compressBarsTimeout;
+        function refreshProgressBars() {
+            jQuery.ajax({
+                url: "{{ path('dige_sylius_tinypng_plugin_setting_counts') }}",
+                success: function(data) {
+                    const actualCompressCount = parseInt(data.actualCompressCount);
+                    const actualUnCompressedCount = parseInt(data.actualUnCompressedCount);
+                    const actualOverallFileCount = parseInt(data.actualOverallFileCount);
+                    const overallCount = actualCompressCount + actualUnCompressedCount;
+                    const actualMediaLogCount = parseInt(data.actualMediaLogCount);
+                    loadImagesInProgress = parseInt(data.loadImagesInProgress);
+                    compressOn = parseInt(data.compressOn);
+                    const widthCompressBar = parseInt((actualCompressCount / overallCount) * 100);
+                    const widthLoadMediaLog = parseInt((actualMediaLogCount / actualOverallFileCount) * 100);
+
+                    let elemCompressBar = document.getElementById("compressBar");
+                    let elemLoadMediaBar = document.getElementById("loadMediaBar");
+                    let elemPCompressBar = jQuery('#pCompressBar');
+                    let elemPLoadMediaBar = jQuery('#pLoadMediaBar');
+
+                    if(!compressOn && !loadImagesInProgress) {
+                        clearTimeout(compressBarsTimeout);
+                        if(elemPCompressBar.is(":visible")) {
+                            jQuery('#successCompressBar').show();
+                            elemPCompressBar.hide();
+                        }
+
+                        if(elemPLoadMediaBar.is(":visible")) {
+                            jQuery('#successLoadMediaBar').show();
+                            elemPLoadMediaBar.hide();
+                        }
+                        window.location.href = window.location.href
+                    } else {
+                        compressBarsTimeout = setTimeout(function() {
+                            refreshProgressBars();
+                        }, 120000);
+                        elemCompressBar.style.width = widthCompressBar + '%';
+                        elemCompressBar.innerHTML = widthCompressBar + '%';
+                        elemLoadMediaBar.innerHTML = widthLoadMediaLog + '%';
+                        elemLoadMediaBar.style.width = widthLoadMediaLog + '%';
+                    }
+                }
+            });
+        };
+    </script>
+{% endblock %}

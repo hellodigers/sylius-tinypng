@@ -1,0 +1,50 @@
+tinypng:
+    label: 'Tinypng'
+    ui:
+        menu:
+            settings: 'Setting'
+            label: 'Tinypng'
+        settings:
+            first_step: '1. Plugin configuration'
+            second_step: '2. Load images'
+            third_step: '2. Compress images'
+            progress:
+                compress_is_on: 'On'
+                compress_is_halt: 'Halt'
+                compress_end: 'Ended compressing'
+                load_images_end: 'Ended load images'
+                load_images: 'Actual progress of load images'
+                compress: 'Actual progress of compression'
+            media_logs_registered_in_progress: 'Already in progress'
+            media_logs_registered: 'Successful register action'
+            media_log:
+                compressed_count: 'Compressed images: count'
+                uncompressed_count: 'Uncompressed images: count'
+            load_warning: 'Before start, please load images to compress'
+            form:
+                api_key_count: 'Compressed images by API in this month: count'
+                api_key: 'Api key'
+                enabled: 'Enabled'
+                enabled_help: 'This option provide automatic image compress after upload'
+            compress_all_warning: 'Compressing all images can not be done when new one is started, api key is not provided or already all images are compressed'
+            logs:
+                error: 'Exception message'
+                image_count: 'Images count'
+                image_count_info: 'Images count will be visible after some time'
+                created_by: 'Created by'
+                finished_at: 'Finished at'
+                head: 'Last ten logs'
+            setting_saved: 'Saved'
+            label: 'Edit TINYPNG settings'
+            sub_header: 'Manage TINYPNG settings'
+            compress_all: 'Compress all photos'
+            compress_registered: 'Compress registered'
+            button:
+                start_all_continue:
+                    label: 'Continue started compression'
+                load_images:
+                    label: 'Load images'
+                save:
+                    label: 'Save'
+                start_all:
+                    label: 'Start'

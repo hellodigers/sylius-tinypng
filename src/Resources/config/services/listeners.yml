@@ -1,0 +1,12 @@
+services:
+  dige_sylius_tinypng_plugin.evenet_listener.compress_image_register:
+    class: Dige\TinypngPlugin\EventListener\RegisterCompressImageSubscriber
+    tags:
+      - { name: 'doctrine.event_subscriber'}
+    arguments:
+      [ '@messenger.routable_message_bus', '@dige_sylius_tinypng_plugin.repository.settings' ]
+
+  dige_sylius_tinypng_plugin.evenet_listener.remove_media_log_cache:
+    class: Dige\TinypngPlugin\EventListener\ClearCachedInProgressLoadMediaLogsSubscriber
+    tags:
+      - { name: 'kernel.event_subscriber'}

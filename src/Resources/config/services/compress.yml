@@ -1,0 +1,28 @@
+services:
+  dige_sylius_tinypng_plugin.service.compress_image:
+    class: Dige\TinypngPlugin\Service\Compress\CompressImageService
+    public: true
+    arguments:
+      $storagePath: '%sylius_core.images_dir%'
+      $settingsRepository: '@dige_sylius_tinypng_plugin.repository.settings'
+      $availableMediaExtensions : '%available_media_extensions%'
+
+  dige_sylius_tinypng_plugin.service.compress_images:
+    class: Dige\TinypngPlugin\Service\Compress\CompressImagesService
+    public: true
+    arguments:
+      [
+        '@dige_sylius_tinypng_plugin.service.compress_image',
+        '@dige_sylius_tinypng_plugin.repository.log',
+        '@dige_sylius_tinypng_plugin.repository.media_log',
+        '@dige.tinypng_plugin.service.cache.cache_service'
+      ]
+
+  dige_sylius_tinypng_plugin.service.compress_media_log:
+    class: Dige\TinypngPlugin\Service\Compress\Log\CompressMediaLogService
+    public: true
+    arguments:
+      $container: '@service_container'
+      $logRepository: '@dige_sylius_tinypng_plugin.repository.media_log'
+      $repositoriesIds: '%image_repositories%'
+      $cacheService: '@dige.tinypng_plugin.service.cache.cache_service'

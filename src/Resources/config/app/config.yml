@@ -1,0 +1,7 @@
+imports:
+  - { resource: "../services.yml" }
+  - { resource: "../resources.yml" }
+
+parameters:
+    image_repositories: ['sylius.repository.taxon_image', 'sylius.repository.product_image']
+    available_media_extensions: ['jpg', 'png', 'jpeg', 'webp']

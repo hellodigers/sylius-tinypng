@@ -1,0 +1,14 @@
+services:
+  dige.sylius.tinypng.plugin.controller.settings:
+    public: true
+    class: Dige\TinypngPlugin\Controller\SettingsController
+    arguments:
+      - '@translator'
+      - '@messenger.routable_message_bus'
+      - '@dige_sylius_tinypng_plugin.service.log'
+      - '@dige_sylius_tinypng_plugin.repository.settings'
+      - '@dige_sylius_tinypng_plugin.repository.log'
+      - '@dige_sylius_tinypng_plugin.service.api'
+      - '@dige_sylius_tinypng_plugin.repository.media_log'
+      - '@dige.tinypng_plugin.service.cache.cache_service'
+    tags: [ 'controller.service_arguments' ]

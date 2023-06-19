@@ -1,0 +1,19 @@
+sylius_resource:
+  resources:
+    dige_sylius_tinypng_plugin.log:
+      driver: doctrine/orm
+      classes:
+        model: Dige\TinypngPlugin\Entity\Log
+        repository: Dige\TinypngPlugin\Repository\LogRepository
+
+    dige_sylius_tinypng_plugin.settings:
+      driver: doctrine/orm
+      classes:
+        model: Dige\TinypngPlugin\Entity\Settings
+        repository: Dige\TinypngPlugin\Repository\SettingsRepository
+
+    dige_sylius_tinypng_plugin.media_log:
+      driver: doctrine/orm
+      classes:
+        model: Dige\TinypngPlugin\Entity\MediaLog
+        repository: Dige\TinypngPlugin\Repository\MediaLogRepository

@@ -1,0 +1,24 @@
+services:
+  dige_sylius_tinypng_plugin.command.compress.image:
+    class: Dige\TinypngPlugin\Message\Handler\CompressImageHandler
+    public: true
+    tags:
+      - { name: messenger.message_handler, bus: sylius.command_bus }
+    arguments:
+      [ '@doctrine.orm.entity_manager', '@dige_sylius_tinypng_plugin.service.compress_image', '@dige_sylius_tinypng_plugin.service.compress_media_log' ]
+
+  dige_sylius_tinypng_plugin.command.compress.images:
+    class: Dige\TinypngPlugin\Message\Handler\CompressImagesHandler
+    public: true
+    tags:
+      - { name: messenger.message_handler, bus: sylius.command_bus }
+    arguments:
+      [ '@dige_sylius_tinypng_plugin.service.compress_images' ]
+
+  dige_sylius_tinypng_plugin.command.compress.media_logs:
+    class: Dige\TinypngPlugin\Message\Handler\CreateMediaLogsHandler
+    public: true
+    tags:
+      - { name: messenger.message_handler, bus: sylius.command_bus }
+    arguments:
+      [ '@dige_sylius_tinypng_plugin.service.compress_media_log' ]

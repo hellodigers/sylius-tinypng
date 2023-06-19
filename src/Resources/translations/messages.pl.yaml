@@ -1,0 +1,51 @@
+tinypng:
+    label: 'Tinypng'
+    ui:
+        menu:
+           settings: 'Ustawienia'
+           label: 'Tinypng'
+        settings:
+            exceeded: 'Obecne konto przekroczyło dostępny limit optymalizacji grafik.'
+            first_step: '1. Skonfiguruj wtyczkę'
+            second_step: '2. Załaduj obrazki do masowej optymalizacji'
+            third_step: '3. Masowa optymalizacja'
+            progress:
+                compress_is_on: 'w trakcie'
+                compress_is_halt: 'wstrzymany'
+                compress_end: 'Zakończono kompresje'
+                load_images_end: 'Zakończono wczytywanie grafik'
+                load_images: 'Aktualny postęp wczytywania grafik'
+                compress: 'Aktualny postęp optymalizacji'
+            media_logs_registered_in_progress: 'Aktualnie są wczytywane grafiki'
+            media_logs_registered: 'Pomyślnie zarejestrowano wczytanie grafik do optymalizacji.'
+            media_log:
+                compressed_count: 'Liczba zaoptymalizowanych grafik: count'
+                uncompressed_count: 'Liczba niezoptmalizowanych grafik: count'
+            load_warning: 'Zanim zaczniesz, załąduj wszystkie grafiki do kompresji'
+            form:
+                api_key_count: 'Liczba skompresowanych grafik przez api w tym miesiącu: count'
+                api_key: 'Klucz api'
+                enabled: 'Automatyczna optymalizacja'
+                enabled_help: 'Opcja ta pozwala na automatyczną kompresje obrazków po ich zapisie'
+            compress_all_warning: 'Nie można skompresować wszystkich obrazów, gdy aktualnie są kompresowane, nie podano klucza api lub wszystkie zostały już skompresowane'
+            logs:
+                error: 'Treść wyjątku: '
+                image_count: 'Liczba grafik'
+                image_count_info: 'Liczba grafik będzie widoczna za jakiś czas'
+                created_by: 'Zlecone przez'
+                finished_at: 'Zakończone o'
+                head: 'Ostatnie 10 optymalizacji'
+            setting_saved: 'Zapisano ustawienia'
+            label: 'Edytuj ustawienia TINYPNG'
+            sub_header: 'Zarządzaj ustawieniami pluginu TINYPNG'
+            compress_all: 'Optymalizuj wszystkie count obrazki'
+            compress_registered: 'Zarejestrowano optymalizację obrazków'
+            button:
+                start_all_continue:
+                    label: 'Kontynuj rozpoczętą optymalizację'
+                load_images:
+                    label: 'Wczytaj grafiki'
+                save:
+                    label: 'Zapisz'
+                start_all:
+                    label: 'Rozpocznij'
