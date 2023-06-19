@@ -2,18 +2,9 @@
 
 ## Installation
 
-### Add to repositories in rcomposer.json
-```json
-{
-    "type": "vcs",
-    "url": "https://git.dige.com.pl/sylius-plugins/tinypng.git",
-    "name": "dige/sylius-tinypng-plugin"
-}
-```
-
 ### Composer install
 ```
-composer require dige/sylius-tinypng-plugin
+composer require hellodigers/sylius-tinypng-plugin
 ```
 
 ### Register bundle:
