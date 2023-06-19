@@ -1,0 +1,4 @@
+suites:
+    main:
+        namespace: Dige\TinypngPlugin
+        psr4_prefix: Dige\TinypngPlugin
