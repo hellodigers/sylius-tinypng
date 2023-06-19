@@ -10,8 +10,8 @@
     "license": "MIT",
     "require": {
         "php": ">=7.4",
-        "sylius/sylius": ">=1.10",
-        "tinify/tinify": "*"
+        "sylius/sylius": "^1.10 || ^1.11 || ^1.12",
+        "tinify/tinify": "^1.6"
     },
     "require-dev": {
         "behat/behat": "^3.6.1",
