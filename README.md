@@ -4,7 +4,7 @@
 
 ### Composer install
 ```
-composer require hellodigers/sylius-tinypng-plugin
+composer require dige/sylius-tinypng-plugin
 ```
 
 ### Register bundle:
